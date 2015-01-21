@@ -15,14 +15,16 @@ var properties = {
     dateFormat: '%Y-%m',
     margin: {
         top: 10,
-        right: 20,
+        right: 30,
         bottom: 40,
-        left: 20
-    }
+        left: 30
+    },
+    xAxis: d3.time.months
 };
 
-function switchData(file) {
+function switchData(file, xAxis) {
     properties.filename = file;
+    properties.xAxis = xAxis;
     chart(properties);
 }
 
@@ -39,7 +41,8 @@ function chart(propertiesProvided) {
         filename: null,
         margin: null,
         strokeColor: null,
-        dateFormat: null
+        dateFormat: null,
+        xAxis: null
     };
 
     // Merge given properties with property defaults.
@@ -47,12 +50,11 @@ function chart(propertiesProvided) {
         if (propertiesProvided[key]) {
             properties[key] = propertiesProvided[key];
         } else if (properties[key] === null) {
-            console.log('Property "' + key + '"" is required.');
+            console.log('Property "' + key + '" is required.');
             return false;
         }
     }
 
-    console.log(document.getElementById('chart').width);
     var width = document.body.clientWidth - properties.margin.left - properties.margin.right;
     var height = 600 - properties.margin.top - properties.margin.bottom;
     var width = d3.select('#chart')[0][0].clientWidth - properties.margin.left - properties.margin.right;
@@ -69,7 +71,7 @@ function chart(propertiesProvided) {
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient('bottom')
-        .ticks(d3.time.months)
+        .ticks(properties.xAxis)
 
     var yAxis = d3.svg.axis()
         .scale(y);
@@ -134,7 +136,7 @@ function chart(propertiesProvided) {
         svg.append('g')
           .attr('class', 'y axis')
           .attr('transform', 'translate(' + width + ', 0)')
-          .call(yAxis.orient('right'));
+          .call(yAxisr.orient('right'));
 
         svg.append('g')
           .attr('class', 'y axis')
@@ -184,6 +186,7 @@ function chart(propertiesProvided) {
             .style('top', '10px')
             .style('bottom', '30px')
             .style('left', '0px')
+            .style('visibility', 'hidden')
             .style('background', '#333');
 
         d3.select('.chart')
@@ -202,6 +205,7 @@ function chart(propertiesProvided) {
              mousex = d3.mouse(this);
              mousex = mousex[0] + 5;
              vertical.style('left', mousex + 'px');
+             vertical.style('visibility', 'visible');
              tooltip.style('left', mousex + 'px' );
              tooltip.style('text-align', 'left');
              if (mousex + 220 > document.body.clientWidth) {

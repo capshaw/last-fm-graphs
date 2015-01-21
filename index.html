@@ -12,10 +12,12 @@
         Last.fm River
     </div>
     <div class='controls well'>
-        <button class='btn btn-default' onClick='switchData("data/two-years-top-10.csv")'>Top 10</button>
-        <button class='btn btn-default' onClick='switchData("data/two-years-top-25.csv")'>Top 25</button>
-        <button class='btn btn-default' onClick='switchData("data/two-years-top-80.csv")'>Top 80</button>
-        <button class='btn btn-default' onClick='switchData("data/two-years-top-175.csv")'>Top 175</button>
+        <button class='btn btn-default' onClick='switchData("data/two-years-top-10.csv", d3.time.months)'>Top 10</button>
+        <button class='btn btn-default' onClick='switchData("data/two-years-top-25.csv", d3.time.months)'>Top 25</button>
+        <button class='btn btn-default' onClick='switchData("data/two-years-top-80.csv", d3.time.months)'>Top 80</button>
+        <button class='btn btn-default' onClick='switchData("data/two-years-top-175.csv", d3.time.months)'>Top 175</button>
+        <button class='btn btn-default' onClick='switchData("data/all-top-25.csv", d3.time.years)'>All Top 25</button>
+        <button class='btn btn-default' onClick='switchData("data/all-top-50.csv", d3.time.years)'>All Top 50</button>
     </div>
     <div class='chart' id='chart'>
         <!-- The D3 river chart is drawn here -->
